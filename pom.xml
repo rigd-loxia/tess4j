@@ -40,6 +40,19 @@
         </license>
     </licenses>
 
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Releases</name>
+            <url>http://nexus-loxia:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Snapshots</name>
+            <url>http://nexus-loxia:8081/nexus/content/repositories/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 
     <organization>
         <name>Tess4J</name>
@@ -84,17 +97,6 @@
         <manifest.implementation.vendor>Tess4J</manifest.implementation.vendor>
     </properties>
 
-    <distributionManagement>
-      <snapshotRepository>
-        <id>nexus-snapshots</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      </snapshotRepository>
-      <repository>
-        <id>ossrh</id>
-        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-      </repository>
-    </distributionManagement>
-  
     <build>
         <plugins>
             <plugin>
