@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.tess4j</groupId>
     <artifactId>tess4j</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0-LOXIA-1</version>
     <packaging>jar</packaging>
 
     <name>Tess4J - Tesseract for Java</name>
-    <url>http://tess4j.sourceforge.net</url>
+    <url>https://github.com/rigd-loxia/tess4j</url>
     <description>
         # Tess4J
 
@@ -60,7 +60,7 @@
     </organization>
 
     <scm>
-        <connection>scm:svn:https://github.com/nguyenq/tess4j/trunk/</connection>
+        <connection>scm:svn:https://github.com/rigd-loxia/tess4j/trunk/</connection>
         <developerConnection>scm:svn:https://github.com/nguyenq/tess4j/trunk/</developerConnection>
         <url>https://github.com/nguyenq/tess4j/trunk/</url>
     </scm>
@@ -87,7 +87,6 @@
             </roles>
         </contributor>
     </contributors>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <manifest.implementation.vendor>Tess4J</manifest.implementation.vendor>
@@ -147,16 +146,6 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
-                <configuration>
-                   <serverId>nexus</serverId>
-                   <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                </configuration>
-             </plugin>
         </plugins>
     </build>
 
@@ -208,7 +197,7 @@
         <dependency>
             <groupId>net.sourceforge.lept4j</groupId>
             <artifactId>lept4j</artifactId>
-            <version>1.6.3-SNAPSHOT</version>
+            <version>1.6.3-LOXIA-1</version>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>

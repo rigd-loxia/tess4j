@@ -23,7 +23,10 @@ import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -48,6 +51,7 @@ public class LoadLibs {
 
     private static final String VFS_PROTOCOL = "vfs";
     private static final String JNA_LIBRARY_PATH = "jna.library.path";
+    private static final String JAVA_LIBRARY_PATH = "java.library.path";
     public static final String TESS4J_TEMP_DIR = new File(System.getProperty("java.io.tmpdir"), "tess4j").getPath();
 
     /**
@@ -62,12 +66,43 @@ public class LoadLibs {
         System.setProperty("jna.encoding", "UTF8");
         File targetTempFolder = extractTessResources(Platform.RESOURCE_PREFIX);
         if (targetTempFolder != null && targetTempFolder.exists()) {
-            String userCustomizedPath = System.getProperty(JNA_LIBRARY_PATH);
-            if (null == userCustomizedPath || userCustomizedPath.isEmpty()) {
-                System.setProperty(JNA_LIBRARY_PATH, targetTempFolder.getPath());
-            } else {
-                System.setProperty(JNA_LIBRARY_PATH, userCustomizedPath + File.pathSeparator + targetTempFolder.getPath());
+            List<File> natives = new ArrayList<>(Arrays.asList(targetTempFolder.listFiles()));
+            loadNativeFiles(natives);
+            setProperty(targetTempFolder, JNA_LIBRARY_PATH);
+            setProperty(targetTempFolder, JAVA_LIBRARY_PATH);
+            setProperty(targetTempFolder, "LD_LIBRARY_PATH");
+        }
+    }
+
+    private static void loadNativeFiles(List<File> notLoadedNatives) {
+        int previousSize = 0;
+        while (notLoadedNatives.size() != previousSize) {
+            previousSize = notLoadedNatives.size();
+            for (int i = 0; i < notLoadedNatives.size(); i++) {
+                File nativeFile = notLoadedNatives.get(i);
+                try {
+                    System.load(nativeFile.getAbsolutePath());
+                    logger.debug("Loaded native file {}", nativeFile);
+                    notLoadedNatives.remove(i);
+                }
+                catch (UnsatisfiedLinkError e) {
+                    // Set to debug because this will fail for files different platforms
+                    logger.debug("Failed to load native file {}, msg {}", nativeFile, e.getMessage());
+                }
             }
+        }
+    }
+
+    private static void setProperty(File targetTempFolder, String property) {
+        System.setProperty(property, createPathProperty(targetTempFolder.getPath(), property));
+    }
+
+    private static String createPathProperty(String path, String property) {
+        String userCustomizedPath = System.getProperty(property);
+        if (null == userCustomizedPath || userCustomizedPath.isEmpty()) {
+            return path;
+        } else {
+            return userCustomizedPath + File.pathSeparator + path;
         }
     }
 

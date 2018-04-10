@@ -666,7 +666,7 @@ public class TessAPI1 implements Library, ITessAPI {
      * @param handle the TesseractAPI instance
      * @param filename pgm file name
      */
-    public static native void TessBaseAPIDumpPGM(TessBaseAPI handle, String filename);
+    //public static native void TessBaseAPIDumpPGM(TessBaseAPI handle, String filename);
 
     /**
      * Runs page layout analysis in the mode set by <code>SetPageSegMode</code>.
